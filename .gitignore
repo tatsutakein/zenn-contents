@@ -1,0 +1,20 @@
+node_modules
+.DS_Store
+
+# IDEA/Android Studio project files, because
+# the project can be imported from settings.gradle.kts
+*.iml
+.idea/*
+!.idea/copyright
+!.idea/codeInsightSettings.xml
+# Keep the project icon.
+!/.idea/icon.svg
+# Keep the code styles.
+!/.idea/codeStyles
+/.idea/codeStyles/*
+!/.idea/codeStyles/Project.xml
+!/.idea/codeStyles/codeStyleConfig.xml
+# Suppress typo
+!/.idea/dictionaries
+/.idea/dictionaries/*
+!/.idea/dictionaries/dictionary.xml
