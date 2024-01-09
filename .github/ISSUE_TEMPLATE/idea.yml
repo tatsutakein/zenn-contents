@@ -1,0 +1,33 @@
+name: Idea
+description: アイデアを書き出す
+title: "[Idea]: "
+labels: [ "enhancement", "triage me" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        この度はアイデアの要望にご協力いただき、ありがとうございます。
+
+  - type: checkboxes
+    attributes:
+      label: 既存の課題がありませんか？
+      description: この機能要求に対してすでに課題が存在するかどうか、検索してください。
+      options:
+        - label: 既存の課題を検索してみました
+          required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: アイデアを説明する
+      description: アイデアをご記入ください。
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 追加コンテキスト
+      description: アイデアに関する他のコンテキストやスクリーンショットをここに追加してください。
+    validations:
+      required: false
