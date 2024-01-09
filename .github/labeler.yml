@@ -8,10 +8,10 @@ labels:
     title: '^(:\+1:|:recycle:|:rocket:).*'
   - label: "@type/fix"
     title: '^:bug:.*'
-  - label: "@type/article"
+  - label: "article"
     files:
       - "articles/.+"
-  - label: "@type/book"
+  - label: "book"
     files:
       - "books/.+"
   - label: "@type/docs"
