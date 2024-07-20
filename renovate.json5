@@ -10,5 +10,40 @@
   "labels": [
     "dependencies"
   ],
+  "pruneBranchAfterAutomerge": true,
   "rangeStrategy": "pin",
+  "packageRules": [
+    {
+      "groupName": "github-actions non-major dependencies",
+      "groupSlug": "github-actions-minor-patch",
+      "addLabels": [
+        "ignore for release",
+      ],
+      "matchManagers": [
+        "github-actions",
+      ],
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+    },
+    {
+      "groupName": "bun non-major dependencies",
+      "groupSlug": "bun-minor-patch",
+      "matchManagers": [
+        "bun",
+        "npm",
+      ],
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+    }
+  ]
 }
