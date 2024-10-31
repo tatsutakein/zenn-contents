@@ -1,0 +1,116 @@
+{
+  "title": "Ktor ( client ) を 1.6.8 から 2.0.0 にバージョンアップする",
+  "closed": true,
+  "archived": false,
+  "created_at": "2022-04-17",
+  "comments": [
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "公式ガイドを参考にして取り掛かる 💪\nhttps://ktor.io/docs/migrating-2.html#client"
+    },
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "バージョンアップする前の依存関係\n\n```toml:libs.versions.toml\n[versions]\nktor = \"1.6.8\"\n\n[libraries]\nktor-core = { module = \"io.ktor:ktor-client-core\", version.ref = \"ktor\" }\nktor-json = { module = \"io.ktor:ktor-client-json\", version.ref = \"ktor\" }\nktor-logging = { module = \"io.ktor:ktor-client-logging\", version.ref = \"ktor\" }\nktor-okhttp = { module = \"io.ktor:ktor-client-okhttp\", version.ref = \"ktor\" }\nktor-ios = { module = \"io.ktor:ktor-client-ios\", version.ref = \"ktor\" }\nktor-serialization = { module = \"io.ktor:ktor-client-serialization\", version.ref = \"ktor\" }\nktor-mock = { module = \"io.ktor:ktor-client-mock\", version.ref = \"ktor\" }\n```",
+      "children": [
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "まずは単純にバージョンのみ上げてみる\n```diff toml:libs.versions.toml\n[versions]\n- ktor = \"1.6.8\"\n+ ktor = \"2.0.0\"\n\n[libraries]\nktor-core = { module = \"io.ktor:ktor-client-core\", version.ref = \"ktor\" }\nktor-json = { module = \"io.ktor:ktor-client-json\", version.ref = \"ktor\" }\nktor-logging = { module = \"io.ktor:ktor-client-logging\", version.ref = \"ktor\" }\nktor-okhttp = { module = \"io.ktor:ktor-client-okhttp\", version.ref = \"ktor\" }\nktor-ios = { module = \"io.ktor:ktor-client-ios\", version.ref = \"ktor\" }\nktor-serialization = { module = \"io.ktor:ktor-client-serialization\", version.ref = \"ktor\" }\nktor-mock = { module = \"io.ktor:ktor-client-mock\", version.ref = \"ktor\" }\n```"
+        }
+      ]
+    },
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "`JsonFeature` を `install` していたところで早速怒られた 😂",
+      "children": [
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "Content negotiation and serialization﻿ に記載してあった 🤞\nhttps://ktor.io/docs/migrating-2.html#serialization-client\n\nライブラリを追加 & 修正する。\n```diff toml:libs.versions.toml\n[versions]\nktor = \"2.0.0\"\n\n[libraries]\nktor-core = { module = \"io.ktor:ktor-client-core\", version.ref = \"ktor\" }\nktor-json = { module = \"io.ktor:ktor-client-json\", version.ref = \"ktor\" }\nktor-logging = { module = \"io.ktor:ktor-client-logging\", version.ref = \"ktor\" }\nktor-okhttp = { module = \"io.ktor:ktor-client-okhttp\", version.ref = \"ktor\" }\nktor-ios = { module = \"io.ktor:ktor-client-ios\", version.ref = \"ktor\" }\n+ ktor-content-negotiation = { module = \"io.ktor:ktor-client-content-negotiation\", version.ref = \"ktor\" }\n+ ktor-serialization = { module = \"io.ktor:ktor-serialization-kotlinx-json\", version.ref = \"ktor\" }\n- ktor-serialization = { module = \"io.ktor:ktor-client-serialization\", version.ref = \"ktor\" }\nktor-mock = { module = \"io.ktor:ktor-client-mock\", version.ref = \"ktor\" }\n```",
+          "body_updated_at": "2022-04-17"
+        },
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "こんな感じで変わった。\n\n```diff kt\nimport io.ktor.client.HttpClient\n- import io.ktor.client.features.json.JsonFeature\n- import io.ktor.client.features.json.serializer.KotlinxSerializer\n- import kotlinx.serialization.json.Json\n+ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation\n+ import io.ktor.http.ContentType\n+ import io.ktor.serialization.kotlinx.json.json\n+ import kotlinx.serialization.json.Json\n\nHttpClient(engineFactory = engineFactory) {\n-     install(JsonFeature) {\n-         serializer = KotlinxSerializer(\n-             Json {\n-                 ..\n-             }\n-         )\n-         ..\n-     }\n+     install(ContentNegotiation) {\n+         json(\n+             json = Json {\n+                 ..\n+             },\n+             contentType = ContentType.Application.Json,\n+         )\n+         ..\n+     }\n    ..\n}\n```\n",
+          "body_updated_at": "2022-04-17"
+        }
+      ]
+    },
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "`import io.ktor.client.features.*` が `import io.ktor.client.plugins.*` にリネームされてる。\n\nhttps://ktor.io/docs/migrating-2.html#feature-plugin-client",
+      "body_updated_at": "2022-04-17"
+    },
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "`io.ktor.client.plugins.HttpCallValidator.Config#handleResponseException` が非推奨になってる。\n\nhttps://ktor.io/docs/migrating-2.html#response-validation",
+      "children": [
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "ReplaceWith で指定されているとおり `io.ktor.client.plugins.HttpCallValidator.Config#handleResponseExceptionWithRequest` を使うで良さそう。\n\n```diff kt\n- import io.ktor.client.HttpClient\n- import io.ktor.client.features.HttpResponseValidator\n+ import io.ktor.client.HttpClient\n+ import io.ktor.client.plugins.HttpResponseValidator\n\nHttpClient(engineFactory = engineFactory) {\n    HttpResponseValidator {\n-         handleResponseException{ cause ->\n+         handleResponseExceptionWithRequest { cause, request ->\n        }\n    }\n    ..\n}\n\n```\n",
+          "body_updated_at": "2022-04-17"
+        },
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "`io.ktor.client.call.HttpResponse#receive<T>` が非推奨になってる。"
+        },
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "これも ReplaceWith で指定されているとおり \n`io.ktor.client.call.HttpResponse#body<T>` を使うで良さそう。\n\n公式の移行ガイドにも記述がある 👀\n\nhttps://ktor.io/docs/migrating-2.html#responses",
+          "body_updated_at": "2022-04-17"
+        }
+      ]
+    },
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "`SocketTimeoutException` があった `io.ktor.network.*` の名前空間が変わっているみたい。",
+      "children": [
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "`io.ktor.client.network.*` に変わってた 🙌\n\n```diff kt\n- import io.ktor.network.sockets.SocketTimeoutException\n+ import io.ktor.client.network.sockets.SocketTimeoutException\n```"
+        }
+      ]
+    },
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "`HttpRequestBuilder` の `body` でリクエストボディをセットできなくなってる。",
+      "children": [
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "`setBody` を使えば良さそう。\n\nhttps://ktor.io/docs/migrating-2.html#request-body"
+        }
+      ]
+    },
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "`io.ktor.client.request.builders` の拡張関数 `HttpClient#post` ( post 以外もだけど ) が `T` ではなく `io.ktor.client.statement.HttpResponse` を返却するようになってる。",
+      "children": [
+        {
+          "author": "tatsutakein",
+          "created_at": "2022-04-17",
+          "body_markdown": "`post` 呼んだあとに `body` を呼んであげれば良さそう。\n作業中のコードが持ってきづらいので公式のサンプルを引っ張ってくると、こんな感じで変わる。\n\n```diff kt\n- val customer: Customer = client.get(\"http://localhost:8080/customer/3\")\n+ val customer: Customer = client.get(\"http://localhost:8080/customer/3\").body()\n```\n\nhttps://ktor.io/docs/migrating-2.html#responses",
+          "body_updated_at": "2022-04-17"
+        }
+      ]
+    },
+    {
+      "author": "tatsutakein",
+      "created_at": "2022-04-17",
+      "body_markdown": "よしゃ移行完了！\n非推奨になってた関数も ReplaceWith で何に変えればいいか書いてあるし、移行ガイド自体も細かく書かれているから思っていたより楽でした 🎉🎉\n\nhttps://ktor.io/docs/migrating-2.html#client"
+    }
+  ]
+}
