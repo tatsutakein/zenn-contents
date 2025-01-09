@@ -12,7 +12,7 @@ jobs:
     steps:
       # https://github.com/marketplace/actions/create-github-app-token
       - name: Create GitHub App Token
-        uses: actions/create-github-app-token@v1.11.0
+        uses: actions/create-github-app-token@v1.11.1
         id: app-token
         with:
           app-id: ${{ vars.BOT_APP_ID }}
@@ -20,6 +20,6 @@ jobs:
 
       # https://github.com/marketplace/actions/label-manager-for-prs-and-issues-based-on-configurable-conditions
       - name: Label manager for PRs and Issues based on configurable conditions
-        uses: srvaroa/labeler@v1.12.0
+        uses: srvaroa/labeler@v1.13.0
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
