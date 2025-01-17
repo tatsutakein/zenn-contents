@@ -7,3 +7,12 @@ help:
 .PHONY: bs
 bs: # Bootstrap to start development.
 	@./tools/bootstrap.sh
+
+.PHONY: doctor
+doctor: # Check development environment
+	@./tools/doctor.sh
+
+# Clean
+.PHONY: clean
+clean: # Clean
+	@bun run clean
