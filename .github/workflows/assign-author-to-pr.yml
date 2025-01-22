@@ -1,4 +1,4 @@
-name: "Assign author to Pull request"
+name: Assign author to Pull request
 
 on:
   pull_request:
@@ -7,7 +7,31 @@ on:
 jobs:
   assignAuthor:
     name: Assign author to PR
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-24.04
     steps:
+      # https://github.com/marketplace/actions/create-github-app-token
+      - name: Create GitHub App Token
+        uses: actions/create-github-app-token@c1a285145b9d317df6ced56c09f525b5c2b6f755 # v1.11.1
+        id: app-token
+        with:
+          app-id: ${{ vars.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
       - name: Assign Author
-        uses: technote-space/assign-author@v1.6.2
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+            const assignee = context.payload.pull_request.user.login;
+            
+            await github.rest.issues.addAssignees({
+              owner,
+              repo,
+              issue_number: pull_number,
+              assignees: [assignee]
+            });
