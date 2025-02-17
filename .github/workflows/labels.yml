@@ -26,7 +26,7 @@ jobs:
 
       # https://github.com/marketplace/actions/create-github-app-token
       - name: Create GitHub App Token
-        uses: actions/create-github-app-token@c1a285145b9d317df6ced56c09f525b5c2b6f755 # v1.11.1
+        uses: actions/create-github-app-token@0d564482f06ca65fa9e77e2510873638c82206f2 # v1.11.5
         id: app-token
         with:
           app-id: ${{ vars.BOT_APP_ID }}
@@ -34,7 +34,7 @@ jobs:
 
       # https://github.com/marketplace/actions/github-labeler
       - name: Run Labeler
-        uses: crazy-max/ghaction-github-labeler@b54af0c25861143e7c8813d7cbbf46d2c341680c # v5.1.0
+        uses: crazy-max/ghaction-github-labeler@31674a3852a9074f2086abcf1c53839d466a47e7 # v5.2.0
         with:
           github-token: ${{ steps.app-token.outputs.token }}
           yaml-file: .github/labels.yml
