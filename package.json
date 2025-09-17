@@ -19,6 +19,6 @@
     "@commitlint/config-conventional": "19.8.1",
     "@commitlint/types": "19.8.1",
     "zenn-cli": "0.2.3",
-    "lefthook": "1.12.4"
+    "lefthook": "1.13.1"
   }
 }
