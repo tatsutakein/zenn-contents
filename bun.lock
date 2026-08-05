@@ -9,7 +9,7 @@
         "@commitlint/config-conventional": "19.8.1",
         "@commitlint/types": "19.8.1",
         "lefthook": "1.13.6",
-        "zenn-cli": "0.5.1",
+        "zenn-cli": "0.5.2",
       },
     },
   },
@@ -258,7 +258,7 @@
 
     "yocto-queue": ["yocto-queue@1.1.1", "", {}, "sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g=="],
 
-    "zenn-cli": ["zenn-cli@0.5.1", "", { "dependencies": { "open": "^10.2.0", "package-manager-detector": "^1.6.0" }, "bin": { "zenn": "dist/server/zenn.js" } }, "sha512-4F5lfW9RZTjPr8CuwUSoCnxcSBYcjJBFas+FombLF/rnOlrJia73b1Jn8laYhWwAmz4cYgJ3OvBApTh80NEHnw=="],
+    "zenn-cli": ["zenn-cli@0.5.2", "", { "dependencies": { "open": "^10.2.0", "package-manager-detector": "^1.6.0" }, "bin": { "zenn": "dist/server/zenn.js" } }, "sha512-HwZDjkZ8b2BExSwJKE4ERqm3e6+W9J8yNGHbOdKAmUWz4+Z9akGTijFFdK2QsPHp3E1acaGmKvE1jE5MZkLO0A=="],
 
     "import-fresh/resolve-from": ["resolve-from@4.0.0", "", {}, "sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g=="],
   }
