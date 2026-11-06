@@ -14,7 +14,7 @@ jobs:
     uses: ./.github/workflows/wc-changes.yml
 
   action:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: changes
     if: needs.changes.outputs.action == 'true'
     permissions:
@@ -39,7 +39,7 @@ jobs:
           reporter: github-pr-review
 
   semantic-pull-request:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - changes
     if: needs.changes.outputs.semantic_pr == 'true'
@@ -58,7 +58,7 @@ jobs:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
   status-check:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - action
       - semantic-pull-request

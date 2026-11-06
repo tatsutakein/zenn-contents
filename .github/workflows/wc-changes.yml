@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   pr_type:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       semantic_pr: ${{ steps.check.outputs.semantic_pr }}
     steps:
@@ -38,7 +38,7 @@ jobs:
             core.setOutput('semantic_pr', isPullRequest && isTargetAction);
 
   changes:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       action: ${{ steps.filter.outputs.action }}
     steps:
@@ -57,7 +57,7 @@ jobs:
               - '.github/workflows/*.yml'
 
   display_outputs:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - pr_type
       - changes
